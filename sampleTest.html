@@ -49,12 +49,28 @@ function displayItemArray(jsonArray){
 		var li = document.createElement('li');
         ul.appendChild(li);
         li.innerHTML=jsonData[i];
+		
+		
+		
+		 li.addEventListener('click', listItemClicked, false);
 	}
+}
+
+function listItemClicked(){
+	var a = getHtmlElementFromString(this.innerHTML, 'a')[0];
+	var href = a.href
+	Console.log("sid");
+}
+
+function getHtmlElementFromString(innerHTML, htmlElementName){
+	var el = document.createElement( 'html' );
+	el.innerHTML = innerHTML;
+	return el.getElementsByTagName( htmlElementName );
 }
 
 function makeCorsRequest(statusText) {
   // This is a sample server that supports CORS.
-  var url = 'http://affilatewebapplication20160824085657.azurewebsites.net/Affilate/Index?currentChromeUrl=hello';
+  var url = 'http://affilatewebapplication20160824085657.azurewebsites.net/Affilate/Index?currentChromeUrl=https://www.flipkart.com/hp-x1000-wired-optical/p/itmdbfg9qfyjxdxy?pid=ACCDBFEVHVDG2DMJ&srno=b_1_1&otracker=hp_omu_Deals%20of%20the%20Day_5_2cc05487-5a67-47e1-8102-5d9c8d918f7b_2cc05487-5a67-47e1-8102-5d9c8d918f7b_0&lid=LSTACCDBFEVHVDG2DMJ2WD3JU';
 
   var xhr = createCORSRequest('GET', url);
   if (!xhr) {

@@ -35,7 +35,20 @@ function displayItemArray(jsonArray){
 		var li = document.createElement('li');
         ul.appendChild(li);
         li.innerHTML=jsonData[i]; 
+		li.addEventListener('click', listItemClicked, false);
 	}
+}
+
+function listItemClicked(){
+	var a = getHtmlElementFromString(this.innerHTML, 'a')[0];
+	var href = a.href
+	chrome.tabs.create({url: href});
+}
+
+function getHtmlElementFromString(innerHTML, htmlElementName){
+	var el = document.createElement( 'html' );
+	el.innerHTML = innerHTML;
+	return el.getElementsByTagName( htmlElementName );
 }
 
 function makeCorsRequest(statusText) {
@@ -72,3 +85,4 @@ document.addEventListener('DOMContentLoaded', function() {
     renderURL(url); 
   });
 });
+
