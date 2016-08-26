@@ -1,9 +1,9 @@
 {
 	"manifest_version": 2,
 
-	"name":"Best Price",
-	"description":"Best Price for India on-line purchase.",
-	"version":"1.0",
+	"name":"Get Grocery",
+	"description":"Best Price for on-line purchase in India",
+	"version":"2.0",
 
 	"browser_action": {
 		"default_icon":"icon.png",

@@ -53,7 +53,7 @@ function getHtmlElementFromString(innerHTML, htmlElementName){
 
 function makeCorsRequest(statusText) {
   // This is a sample server that supports CORS.
-  var url = 'http://affilatewebapplication20160824085657.azurewebsites.net/Affilate/Index?currentChromeUrl='+statusText;
+  var url = 'http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index?currentChromeUrl='+statusText;
 
   var xhr = createCORSRequest('GET', url);
   if (!xhr) {
