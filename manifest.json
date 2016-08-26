@@ -2,7 +2,9 @@
 	"manifest_version": 2,
 
 	"name":"Get Grocery",
+	
 	"description":"Best Price for on-line purchase in India",
+	
 	"version":"2.0",
 
 	"browser_action": {
@@ -12,8 +14,27 @@
 	
 	"permissions": [
 		"tabs" ,
-    "*://*/*"
+    "*://*/*",
+		"storage"
 	],
-	 "optional_permissions": [ "tabs", "cookies", "*://*/", "notifications", "\u003Call_urls>", "webRequest", "webRequestBlocking" ],
-	  "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'"
+	
+	"optional_permissions": [ "tabs", "cookies", "*://*/", "notifications", "\u003Call_urls>", "webRequest", "webRequestBlocking" ],
+	
+	"content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
+	
+	"content_scripts": [
+        {
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+            ],
+        "js": ["contentScript.js"],
+        "run_at": "document_end"         // pay attention to this line
+        }
+    ],
+	
+	"background": {
+    "scripts": ["jquery-1.10.2.js","background.js","ajaxResponse.js","ajaxCorsRequest.js"],
+    "persistent": false
+  }
 }

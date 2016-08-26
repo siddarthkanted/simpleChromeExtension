@@ -11,30 +11,12 @@ function getCurrentTabUrl(callback) {
   });
 }
 
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
-
 function displayItemArray(jsonArray){
-	var jsonData = JSON.parse(jsonArray);
-	var ul = document.getElementById("items");
-	
-	for (var i = 0; i < jsonData.length; i++) {
+	var ul = document.getElementById("items");	
+	for (var i = 0; i < jsonArray.length; i++) {
 		var li = document.createElement('li');
         ul.appendChild(li);
-        li.innerHTML=jsonData[i]; 
+        li.innerHTML = jsonArray[i];
 		li.addEventListener('click', listItemClicked, false);
 	}
 }
@@ -51,38 +33,26 @@ function getHtmlElementFromString(innerHTML, htmlElementName){
 	return el.getElementsByTagName( htmlElementName );
 }
 
-function makeCorsRequest(statusText) {
-  // This is a sample server that supports CORS.
-  var url = 'http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index?currentChromeUrl='+statusText;
 
-  var xhr = createCORSRequest('GET', url);
-  if (!xhr) {
-    $('#responseString').text('CORS not supported');
 
-  }
+function displayOffers(urlString) {
+    var ajaxArgument = new AjaxArgument("currentChromeUrl", urlString);
+    var ajaxArgumentsArray = [ajaxArgument];
+    var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onOffersObtained, null);
+}
 
-  // Response handlers.
-  xhr.onload = function() {
-    var text = xhr.responseText;
-    //$('#responseString').text('Response from CORS request to ' + url + ': ' + text);
-	displayItemArray(text);
-  };
-
-  xhr.onerror = function() {
-    $('#responseString').text('Woops, there was an error making the request.');
-  };
-
-  xhr.send();
-  }
-
-function renderURL(statusText) {
-	//document.getElementById('currentChromeUrl').textContent = statusText;
-    makeCorsRequest(statusText);			
+function onOffersObtained(ajaxResponse, successArguments) {
+    if (ajaxResponse.getStatusBool() == false)
+        return;
+    else {
+        var jsonData = JSON.parse(ajaxResponse.getResponseContent());
+        return displayItemArray(jsonData.UrlsOfOfferSite);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   getCurrentTabUrl(function(url) {
-    renderURL(url); 
+      displayOffers(url);
   });
 });
 
