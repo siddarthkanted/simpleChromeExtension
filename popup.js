@@ -11,8 +11,26 @@ function getCurrentTabUrl(callback) {
   });
 }
 
+function getCurrentTabDom(){
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    var tab = tabs[0];
+    console.log(tab.url, tab.title);
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.sendMessage(tab.id, {greeting: "hello"}, function(msg) {
+            msg = msg || {};
+            console.log('onResponse', msg.farewell);
+        });
+    });
+});
+
+}
+
+
 function displayItemArray(jsonArray){
-	var ul = document.getElementById("items");	
+	var ul = document.getElementById("items");
+	if(jsonArray.length > 0){
+		$("#items").empty();
+	}
 	for (var i = 0; i < jsonArray.length; i++) {
 		var li = document.createElement('li');
         ul.appendChild(li);
@@ -36,6 +54,7 @@ function getHtmlElementFromString(innerHTML, htmlElementName){
 
 
 function displayOffers(urlString) {
+	getCurrentTabDom();
     var ajaxArgument = new AjaxArgument("currentChromeUrl", urlString);
     var ajaxArgumentsArray = [ajaxArgument];
     var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onOffersObtained, null);
