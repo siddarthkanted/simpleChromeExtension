@@ -1,13 +1,19 @@
-function GetNumberOfOffers(urlString, tabId) {
+function GetNumberOfOffers(urlString, tabId, sendMessageToContentFunction) {
     var ajaxArgument = new AjaxArgument("currentChromeUrl", urlString);
     var ajaxArgumentsArray = [ajaxArgument];
-    var successArguments = { tabId: tabId, tabUrl: urlString };
+    var successArguments = { tabId: tabId, tabUrl: urlString, sendMessageToContentFunction: sendMessageToContentFunction};
     var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onGetNumberOfOffersSuccess, successArguments);
+	return ajaxResponse;
 }
 
-
+function sendMessageToContent(tabId, msg){
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+    chrome.tabs.sendMessage(tabId, msg, function(response) {});  
+	});
+}
 
 function onGetNumberOfOffersSuccess(ajaxResponse, successArguments) {
+	successArguments.sendMessageToContentFunction(successArguments.tabId, {msg: ajaxResponse, "from":"background"});
     if (ajaxResponse.getStatusBool() == false)
         return;
     else {
@@ -25,6 +31,16 @@ function onGetNumberOfOffersSuccess(ajaxResponse, successArguments) {
     }
 }
 
+function receiveMessages(){
+		chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+		 if (request.from == "content") {
+            GetNumberOfOffers(sender.tab.url, sender.tab.id, sendMessageToContent);
+        } 
+    }
+);
+}
+
 
 if (jQuery) {
     // jQuery loaded
@@ -39,13 +55,8 @@ if (jQuery) {
 		chrome.runtime.onConnect = chrome.extension.onConnect;
 		chrome.runtime.connect = chrome.extension.connect;
 	}
-	
-	chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        GetNumberOfOffers(sender.tab.url, sender.tab.id);
-    }
-);
-	
+	receiveMessages();
+		
 } else {
     // jQuery not loaded
 	
