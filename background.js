@@ -2,7 +2,7 @@ function GetNumberOfOffers(urlString, tabId, sendMessageToContentFunction) {
     var ajaxArgument = new AjaxArgument("currentChromeUrl", urlString);
     var ajaxArgumentsArray = [ajaxArgument];
     var successArguments = { tabId: tabId, tabUrl: urlString, sendMessageToContentFunction: sendMessageToContentFunction};
-    var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onGetNumberOfOffersSuccess, successArguments);
+    var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20161020112956.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onGetNumberOfOffersSuccess, successArguments);
 	return ajaxResponse;
 }
 

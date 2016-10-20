@@ -29,7 +29,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 function displayOffers(urlString) {
     var ajaxArgument = new AjaxArgument("currentChromeUrl", urlString);
     var ajaxArgumentsArray = [ajaxArgument];
-    var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20160826094454.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onOffersObtained, null);
+    var ajaxResponse = makeCorsGetRequest('http://affilatewebapplication20161020112956.azurewebsites.net/Affilate/Index', ajaxArgumentsArray, onOffersObtained, null);
 }
 
 function onOffersObtained(ajaxResponse, successArguments) {

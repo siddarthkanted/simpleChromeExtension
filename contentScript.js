@@ -12,7 +12,7 @@ if (!chrome.runtime) {
 var ajaxResponse="";
 
 window.onload = function() {
-	createIcon();
+	//createIcon();
 	sendMessageToBackground();
 	ReceiveMessages();
 	buttonClicks();
@@ -57,7 +57,7 @@ return headerButtonsDiv;
 function boxDivCreate(){
 var boxDiv = document.createElement('div');
 boxDiv.id = "boxDiv";
-boxDiv.style="visibility: hidden; padding: 4px; padding-left: 8px; min-width:320px; height: 400px; border-color: rgb(41, 33, 109); border-radius: 0px 2px 2px 0px; border-width: 1px; position: fixed; top: 200px; left: 0px; z-index: 9999; box-shadow: rgb(203, 203, 203) 0px 0px 7px 3px; overflow-y: scroll; overflow-x: hidden; background: rgb(249, 249, 249);";
+boxDiv.style="visibility: hidden; padding: 4px; padding-left: 8px; max-width:320px; max-height: 400px; border-color: rgb(41, 33, 109); border-radius: 0px 2px 2px 0px; border-width: 1px; position: fixed; top: 200px; left: 0px; z-index: 9999; box-shadow: rgb(203, 203, 203) 0px 0px 7px 3px; overflow-y: scroll; overflow-x: hidden; background: rgb(249, 249, 249);";
 
 var listItems = document.createElement('ul');
 listItems.id = "offers_partner_items_ul";
